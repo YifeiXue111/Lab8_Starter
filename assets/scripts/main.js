@@ -54,7 +54,18 @@ function initializeServiceWorker() {
   // B5. TODO - In the event that the service worker registration fails, console
   //            log that it has failed.
   // STEPS B6 ONWARDS WILL BE IN /sw.js
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', async () => {
+      try {
+        const registration = await navigator.serviceWorker.register('./sw.js');
+        console.log('Service Worker registered successfully:', registration);
+      } catch (error) {
+        console.error('Service Worker registration failed:', error);
+      }
+    });
+  }
 }
+
 
 /**
  * Reads 'recipes' from localStorage and returns an array of
@@ -68,10 +79,15 @@ async function getRecipes() {
   // EXPOSE - START (All expose numbers start with A)
   // A1. TODO - Check local storage to see if there are any recipes.
   //            If there are recipes, return them.
+  const storedRecipes = localStorage.getItem('recipes');
+  if (storedRecipes) {
+    return JSON.parse(storedRecipes);
+  }
   /**************************/
   // The rest of this method will be concerned with requesting the recipes
   // from the network
   // A2. TODO - Create an empty array to hold the recipes that you will fetch
+  const recipes = [];
   // A3. TODO - Return a new Promise. If you are unfamiliar with promises, MDN
   //            has a great article on them. A promise takes one parameter - A
   //            function (we call these callback functions). That function will
@@ -100,6 +116,25 @@ async function getRecipes() {
   //            resolve() method.
   // A10. TODO - Log any errors from catch using console.error
   // A11. TODO - Pass any errors to the Promise's reject() function
+  return new Promise((resolve, reject) => {
+    (async () => {
+      try {
+        for (const url of RECIPE_URLS) {
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error(`Failed to fetch ${url}`);
+          }
+          const recipe = await response.json();
+          recipes.push(recipe);
+        }
+        saveRecipesToStorage(recipes);
+        resolve(recipes);
+      } catch (error) {
+        console.error('Error fetching recipes:', error);
+        reject(error);
+      }
+    })();
+  });
 }
 
 /**

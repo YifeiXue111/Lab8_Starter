@@ -2,7 +2,7 @@
     "name": "Lab8_Starter",
     "short_name": "YifeiXue",
     "description": "This is Progressive Web Apps",
-    "start_url": "",
+    "start_url": "index.html",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#6200ea",

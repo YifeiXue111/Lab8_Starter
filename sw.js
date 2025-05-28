@@ -4,13 +4,6 @@
 const CACHE_NAME = 'lab-8-starter';
 
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/assets/styles/main.css',
-  '/assets/scripts/main.js',
-  '/assets/scripts/RecipeCard.js',
-  '/assets/images/icons/icon-192x192.png',
-  '/assets/images/icons/icon-512x512.png',
   'https://adarsh249.github.io/Lab8-Starter/recipes/1_50-thanksgiving-side-dishes.json',
   'https://adarsh249.github.io/Lab8-Starter/recipes/2_roasting-turkey-breast-with-stuffing.json',
   'https://adarsh249.github.io/Lab8-Starter/recipes/3_moms-cornbread-stuffing.json',
